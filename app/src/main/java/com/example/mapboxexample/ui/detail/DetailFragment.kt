@@ -1,18 +1,12 @@
 package com.example.mapboxexample.ui.detail
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.example.mapboxexample.R
 import com.example.mapboxexample.ui.BaseFragment
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailFragment : BaseFragment() {
 
+    private val detailViewModel: DetailViewModel by viewModel()
     override fun initComponents() {
 
     }

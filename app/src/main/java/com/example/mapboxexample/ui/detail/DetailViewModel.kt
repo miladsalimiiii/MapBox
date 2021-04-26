@@ -2,9 +2,9 @@ package com.example.mapboxexample.ui.detail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.example.mapboxexample.ui.base.BaseViewModel
 
-class DetailViewModel : ViewModel() {
+class DetailViewModel : BaseViewModel(){
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is dashboard Fragment"

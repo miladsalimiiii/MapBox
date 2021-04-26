@@ -1,31 +1,26 @@
 package com.example.mapboxexample.ui.detail
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.example.mapboxexample.R
+import com.example.mapboxexample.ui.base.BaseFragment
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class DetailFragment : Fragment() {
+class DetailFragment : BaseFragment() {
 
-    private lateinit var detailViewModel: DetailViewModel
+    private val detailViewModel: DetailViewModel by viewModel()
+    override fun initComponents() {
 
-    override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        detailViewModel =
-                ViewModelProvider(this).get(DetailViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_detail, container, false)
-        val textView: TextView = root.findViewById(R.id.text_dashboard)
-        detailViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
-        return root
     }
+
+    override fun initUiListeners() {
+
+    }
+
+    override fun initObservers() {
+
+    }
+
+    override fun getLayoutResourceId(): Int {
+        return R.layout.fragment_detail
+    }
+
 }

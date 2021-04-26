@@ -82,4 +82,11 @@ dependencies {
 
     // MultiDex
     implementation 'com.android.support:multidex:1.0.3'
+
+    // Map box
+    implementation ('com.mapbox.mapboxsdk:mapbox-android-sdk:9.6.1'){
+        exclude group: 'group_name', module: 'module_name'
+    }
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:9.6.1'
+
 }

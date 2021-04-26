@@ -1,7 +1,7 @@
 package com.example.mapboxexample.ui.detail
 
 import com.example.mapboxexample.R
-import com.example.mapboxexample.ui.BaseFragment
+import com.example.mapboxexample.ui.base.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailFragment : BaseFragment() {

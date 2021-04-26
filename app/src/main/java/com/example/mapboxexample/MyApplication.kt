@@ -2,6 +2,7 @@ package com.example.mapboxexample
 
 import androidx.multidex.MultiDexApplication
 import com.example.mapboxexample.di.viewModelModule
+import com.mapbox.mapboxsdk.Mapbox
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.KoinComponent
@@ -19,6 +20,7 @@ class MyApplication : MultiDexApplication(), KoinComponent {
 
     override fun onCreate() {
         super.onCreate()
+        Mapbox.getInstance(this, getString(R.string.mapbox_access_token))
         sInstance = this
 
         startKoin {

@@ -2,4 +2,6 @@
     <string name="app_name">MapBoxExample</string>
     <string name="title_map">Map</string>
     <string name="title_detail">Detail</string>
+
+    <string name="mapbox_access_token">pk.eyJ1IjoibWlsYWRzYWxpbWkiLCJhIjoiY2tuejA0OXU1MDB2YjJvbGJibGxwempjdSJ9.Bzk51ZsbrksWOpvlkRIkeQ</string>
 </resources>

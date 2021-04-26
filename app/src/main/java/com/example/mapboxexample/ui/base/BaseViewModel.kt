@@ -1,4 +1,4 @@
-package com.example.mapboxexample.ui
+package com.example.mapboxexample.ui.base
 
 import androidx.lifecycle.ViewModel
 

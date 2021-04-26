@@ -2,7 +2,7 @@ package com.example.mapboxexample.ui.detail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.mapboxexample.ui.BaseViewModel
+import com.example.mapboxexample.ui.base.BaseViewModel
 
 class DetailViewModel : BaseViewModel(){
 

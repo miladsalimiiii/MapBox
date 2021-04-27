@@ -1,6 +1,5 @@
 package com.example.mapboxexample.data.webservice
 
-import android.content.Context
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -12,7 +11,7 @@ class ApiClient {
         private var sApiService: ApiService? = null
 
         private fun getClient(
-            okHttpClient: OkHttpClient.Builder, baseUrl: String, context: Context
+            okHttpClient: OkHttpClient.Builder, baseUrl: String
         ): Retrofit {
             sRetrofit = Retrofit.Builder()
                 .baseUrl(baseUrl)
@@ -24,11 +23,11 @@ class ApiClient {
         }
 
         fun getService(
-            okHttpClient: OkHttpClient.Builder, baseUrl: String, context: Context): ApiService {
+            okHttpClient: OkHttpClient.Builder, baseUrl: String): ApiService {
             if (sApiService == null) {
                 return getClient(
                     okHttpClient,
-                    baseUrl,context
+                    baseUrl
                 ).create(ApiService::class.java)
             }
             return sApiService!!

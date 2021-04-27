@@ -1,6 +1,7 @@
 package com.example.mapboxexample
 
 import androidx.multidex.MultiDexApplication
+import com.example.mapboxexample.di.apiModule
 import com.example.mapboxexample.di.viewModelModule
 import com.mapbox.mapboxsdk.Mapbox
 import org.koin.android.ext.koin.androidContext
@@ -28,7 +29,8 @@ class MyApplication : MultiDexApplication(), KoinComponent {
             androidContext(this@MyApplication)
             modules(
                 listOf(
-                    viewModelModule
+                    viewModelModule,
+                    apiModule
                 )
             )
         }

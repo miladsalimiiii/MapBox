@@ -4,11 +4,9 @@ import com.example.mapboxexample.data.model.PointServer
 import retrofit2.http.GET
 import retrofit2.http.Path
 
-interface ApiService {
+interface ApiHelper {
 
-    @GET("/api/v1")
     suspend fun getAllPoints():List<PointServer>
 
-    @GET("/api/v1/{id}")
     suspend fun getPoint(@Path("id")id:String)
 }

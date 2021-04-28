@@ -26,7 +26,7 @@ private const val MAKI_ICON_CAFE = "cafe-15"
 class MapFragment : BaseFragment(), OnMapReadyCallback {
 
     private val mapViewModel: MapViewModel by viewModel()
-    private lateinit var fragmentInvestmentBinding: FragmentMapBinding
+    private lateinit var fragmentMapBinding: FragmentMapBinding
     private val symbolLayerIconFeatureList: MutableList<SymbolOptions> = ArrayList()
     private lateinit var symbolManager: SymbolManager
     private val snackbarUtil: SnackbarUtil by inject()
@@ -41,17 +41,17 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        fragmentInvestmentBinding =
+        fragmentMapBinding =
             FragmentMapBinding.inflate(inflater, container, false)
-        fragmentInvestmentBinding.mapViewModel = mapViewModel
-        fragmentInvestmentBinding.lifecycleOwner = this
-        return fragmentInvestmentBinding.root
+        fragmentMapBinding.mapViewModel = mapViewModel
+        fragmentMapBinding.lifecycleOwner = this
+        return fragmentMapBinding.root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fragmentInvestmentBinding.mapView.apply {
+        fragmentMapBinding.mapView.apply {
             onCreate(savedInstanceState)
             getMapAsync(this@MapFragment)
         }
@@ -94,14 +94,14 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
                     .withIconImage(MAKI_ICON_HARBOR)
                     .withIconSize(2.0f)
             )
-        fragmentInvestmentBinding.mapView.getMapAsync(this)
+        fragmentMapBinding.mapView.getMapAsync(this)
     }
 
     override fun onMapReady(mapboxMap: MapboxMap) {
 
 
         mapboxMap.setStyle(Style.LIGHT) { style ->
-            symbolManager = SymbolManager(fragmentInvestmentBinding.mapView, mapboxMap, style)
+            symbolManager = SymbolManager(fragmentMapBinding.mapView, mapboxMap, style)
 
             val symbolList=symbolManager.create(symbolLayerIconFeatureList)
 
@@ -124,36 +124,36 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        fragmentInvestmentBinding.mapView.onSaveInstanceState(outState)
+        fragmentMapBinding.mapView.onSaveInstanceState(outState)
     }
 
     override fun onResume() {
         super.onResume()
-        fragmentInvestmentBinding.mapView.onResume()
+        fragmentMapBinding.mapView.onResume()
     }
 
     override fun onStart() {
         super.onStart()
-        fragmentInvestmentBinding.mapView.onStart()
+        fragmentMapBinding.mapView.onStart()
     }
 
     override fun onStop() {
         super.onStop()
-        fragmentInvestmentBinding.mapView.onStop()
+        fragmentMapBinding.mapView.onStop()
     }
 
     override fun onPause() {
         super.onPause()
-        fragmentInvestmentBinding.mapView.onPause()
+        fragmentMapBinding.mapView.onPause()
     }
 
     override fun onLowMemory() {
         super.onLowMemory()
-        fragmentInvestmentBinding.mapView.onLowMemory()
+        fragmentMapBinding.mapView.onLowMemory()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        fragmentInvestmentBinding.mapView.onDestroy()
+        fragmentMapBinding.mapView.onDestroy()
     }
 }

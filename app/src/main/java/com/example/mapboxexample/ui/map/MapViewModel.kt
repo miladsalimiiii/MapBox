@@ -22,6 +22,10 @@ class MapViewModel(
     val loadingLiveData: LiveData<Boolean>
         get() = _loadingLiveData
 
+    private val _getPointsResponseLiveData = MutableLiveData<List<PointServer>>()
+    val getPointsResponseLiveData: LiveData<List<PointServer>>
+        get() = _getPointsResponseLiveData
+
     fun getPoints(){
         object : ApiResponseHandler<List<PointServer>>(
             networkHelper = networkHelper,
@@ -36,9 +40,7 @@ class MapViewModel(
             }
 
             override fun handleSuccessResult(successResult: ApiResult.Success<List<PointServer>>) {
-                viewModelScope.launch(Dispatchers.IO) {
-
-                }
+                  _getPointsResponseLiveData.postValue(successResult.data)
             }
 
             override fun handleError(errorBody: Throwable?, uiCommunication: UICommunication) {

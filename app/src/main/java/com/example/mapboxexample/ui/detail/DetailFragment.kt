@@ -19,8 +19,8 @@ class DetailFragment : BaseFragment() {
 
     }
 
-    override fun getLayoutResourceId(): Int {
-        return R.layout.fragment_detail
-    }
+//    override fun getLayoutResourceId(): Int {
+//        return R.layout.fragment_detail
+//    }
 
 }

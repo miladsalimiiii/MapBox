@@ -15,14 +15,6 @@ abstract class BaseFragment: Fragment() {
 
     private val snackbarUtil:SnackbarUtil by inject()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(getLayoutResourceId(), container, false)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initComponents()
@@ -33,8 +25,6 @@ abstract class BaseFragment: Fragment() {
     protected abstract fun initComponents()
     protected abstract fun initUiListeners()
     protected abstract fun initObservers()
-    protected abstract fun getLayoutResourceId(): Int
-
 
     fun checkCommunicate(
         uICommunication: UICommunication,

@@ -1,6 +1,5 @@
 package com.example.mapboxexample.ui.map
 
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,27 +9,31 @@ import com.example.mapboxexample.R
 import com.example.mapboxexample.data.model.PointServer
 import com.example.mapboxexample.databinding.FragmentMapBinding
 import com.example.mapboxexample.ui.base.BaseFragment
-import com.mapbox.geojson.Feature
-import com.mapbox.geojson.FeatureCollection
-import com.mapbox.geojson.Point
+import com.example.mapboxexample.util.SnackbarUtil
+import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.maps.MapboxMap
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback
 import com.mapbox.mapboxsdk.maps.Style
-import com.mapbox.mapboxsdk.style.layers.PropertyFactory.*
-import com.mapbox.mapboxsdk.style.layers.SymbolLayer
-import com.mapbox.mapboxsdk.style.sources.GeoJsonSource
+import com.mapbox.mapboxsdk.plugins.annotation.SymbolManager
+import com.mapbox.mapboxsdk.plugins.annotation.SymbolOptions
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-private const val SOURCE_ID = "SOURCE_ID"
-private const val ICON_ID = "ICON_ID"
-private const val LAYER_ID = "LAYER_ID"
+private const val MAKI_ICON_HARBOR = "harbor-15"
+private const val MAKI_ICON_CAFE = "cafe-15"
 
 class MapFragment : BaseFragment(), OnMapReadyCallback {
 
     private val mapViewModel: MapViewModel by viewModel()
     private lateinit var fragmentInvestmentBinding: FragmentMapBinding
-    private val symbolLayerIconFeatureList: MutableList<Feature> = ArrayList()
+    private val symbolLayerIconFeatureList: MutableList<SymbolOptions> = ArrayList()
+    private lateinit var symbolManager: SymbolManager
+    private val snackbarUtil: SnackbarUtil by inject()
+
+    companion object {
+        private var SYMBOL_LAST_CLICKED = 0L
+    }
 
 
     override fun onCreateView(
@@ -72,40 +75,51 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
         })
     }
 
-    private fun retryFunction() {mapViewModel.getPoints()}
-    private fun addPointsToMap(pointList:List<PointServer>){
+    private fun retryFunction() {
+        mapViewModel.getPoints()
+    }
+
+    private fun addPointsToMap(pointList: List<PointServer>) {
         for (point in pointList)
             symbolLayerIconFeatureList.add(
-                Feature.fromGeometry(
-                    point.longitude?.let { point.latitude?.let { latitude -> Point.fromLngLat(it, latitude) } }
-                )
+                SymbolOptions()
+                    .withLatLng(point.latitude?.let {
+                        point.longitude?.let { latitude ->
+                            LatLng(
+                                it,
+                                latitude
+                            )
+                        }
+                    })
+                    .withIconImage(MAKI_ICON_HARBOR)
+                    .withIconSize(2.0f)
             )
         fragmentInvestmentBinding.mapView.getMapAsync(this)
     }
+
     override fun onMapReady(mapboxMap: MapboxMap) {
 
-        mapboxMap.setStyle(
-            Style.Builder().fromUri("mapbox://styles/mapbox/cjf4m44iw0uza2spb3q0a7s41")
 
-        .withImage(ICON_ID, BitmapFactory.decodeResource(
-            resources, R.drawable.mapbox_marker_icon_default))
+        mapboxMap.setStyle(Style.LIGHT) { style ->
+            symbolManager = SymbolManager(fragmentInvestmentBinding.mapView, mapboxMap, style)
 
-                .withSource(
-                    GeoJsonSource(SOURCE_ID,
-                    FeatureCollection.fromFeatures(symbolLayerIconFeatureList))
-                )
+            val symbolList=symbolManager.create(symbolLayerIconFeatureList)
 
-                .withLayer(SymbolLayer(LAYER_ID, SOURCE_ID)
-
-                    .withProperties(
-                        iconImage(ICON_ID),
-                        iconAllowOverlap(true),
-                        iconIgnorePlacement(true)
+            symbolManager.addClickListener { symbol ->
+                snackbarUtil.showSnackbarNotify(
+                    requireView(), "Symbol clicked", requireActivity().findViewById(
+                        R.id.nav_view
                     )
                 )
-        )
-    }
 
+                symbolList[SYMBOL_LAST_CLICKED.toInt()].iconImage= MAKI_ICON_HARBOR
+                SYMBOL_LAST_CLICKED=symbol.id
+                symbol.iconImage = MAKI_ICON_CAFE
+                symbolManager.update(symbol)
+                true
+            }
+        }
+    }
 
 
     override fun onSaveInstanceState(outState: Bundle) {

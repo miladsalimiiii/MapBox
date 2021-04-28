@@ -5,8 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.example.mapboxexample.R
+import com.example.mapboxexample.common.UICommunication
+import com.example.mapboxexample.util.SnackbarUtil
+import org.koin.android.ext.android.inject
 
 abstract class BaseFragment: Fragment() {
+
+    private val snackbarUtil:SnackbarUtil by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,4 +34,29 @@ abstract class BaseFragment: Fragment() {
     protected abstract fun initUiListeners()
     protected abstract fun initObservers()
     protected abstract fun getLayoutResourceId(): Int
+
+
+    fun checkCommunicate(
+        uICommunication: UICommunication,
+        retryClickListener: (() -> Unit?)? =null
+    ) {
+        when (uICommunication) {
+            is UICommunication.ShowSnackbar -> {
+                snackbarUtil.showSnackbarNotify(
+                    view = requireView(),
+                    string = uICommunication.message.toIntOrNull()?.let { getString(it) }
+                        ?: uICommunication.message
+                )
+            }
+            is UICommunication.ShowSnackbarWithRetry -> {
+                snackbarUtil.showSnackbarNotify(
+                    view = requireView(),
+                    string = uICommunication.message.toIntOrNull()?.let { getString(it) }
+                        ?: uICommunication.message, snackbarLength = -2)
+                    .setAction(getString(R.string.retry_again)) {
+                        retryClickListener?.invoke()
+                    }
+            }
+        }
+    }
 }

@@ -6,9 +6,9 @@ import retrofit2.http.Path
 
 interface ApiService {
 
-    @GET("/api/v1")
+    @GET("api/v1/points")
     suspend fun getAllPoints():List<PointServer>
 
-    @GET("/api/v1/{id}")
+    @GET("api/v1/{id}")
     suspend fun getPoint(@Path("id")id:String)
 }

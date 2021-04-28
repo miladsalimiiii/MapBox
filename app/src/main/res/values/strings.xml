@@ -2,6 +2,10 @@
     <string name="app_name">MapBoxExample</string>
     <string name="title_map">Map</string>
     <string name="title_detail">Detail</string>
+    <string name="network_unknown_error">Network unknown error</string>
+    <string name="server_error">Server Error</string>
+    <string name="error_internet_connection">Error Internet Connection</string>
+    <string name="retry_again">Retry again</string>
 
     <string name="mapbox_access_token">pk.eyJ1IjoibWlsYWRzYWxpbWkiLCJhIjoiY2tuejA0OXU1MDB2YjJvbGJibGxwempjdSJ9.Bzk51ZsbrksWOpvlkRIkeQ</string>
 </resources>

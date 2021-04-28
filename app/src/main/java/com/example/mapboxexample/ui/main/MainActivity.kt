@@ -8,7 +8,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.mapboxexample.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.mapbox.mapboxsdk.Mapbox
 
 class MainActivity : AppCompatActivity() {
 

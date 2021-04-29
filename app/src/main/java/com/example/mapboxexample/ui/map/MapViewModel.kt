@@ -26,6 +26,15 @@ class MapViewModel(
     val getPointsResponseLiveData: LiveData<List<PointServer>>
         get() = _getPointsResponseLiveData
 
+
+    private val _getPointDetailResponseLiveData = MutableLiveData<PointServer>()
+    val getPointDetailResponseLiveData: LiveData<PointServer>
+        get() = _getPointDetailResponseLiveData
+
+    var selectedPointPositionLiveData = MutableLiveData<Long>()
+
+
+
     fun getPoints(){
         object : ApiResponseHandler<List<PointServer>>(
             networkHelper = networkHelper,
@@ -47,5 +56,30 @@ class MapViewModel(
                 _uiCommunicationListener.postValue(uiCommunication)
             }
         }.getResult()
+    }
+
+    fun getPointDetail() {
+        selectedPointPositionLiveData.value?.let {
+            object : ApiResponseHandler<PointServer>(
+                networkHelper = networkHelper,
+                apiCall = {
+                    pointRepository.getPoint(pointId = it.toString())
+                }, viewModelScope = viewModelScope
+            ) {
+                override fun handleLoading(enable: Boolean) {
+                    viewModelScope.launch(Dispatchers.Main) {
+                        _loadingLiveData.value = enable
+                    }
+                }
+
+                override fun handleSuccessResult(successResult: ApiResult.Success<PointServer>) {
+                    _getPointDetailResponseLiveData.postValue(successResult.data)
+                }
+
+                override fun handleError(errorBody: Throwable?, uiCommunication: UICommunication) {
+                    _uiCommunicationListener.postValue(uiCommunication)
+                }
+            }.getResult()
+        }
     }
 }

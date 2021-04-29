@@ -17,6 +17,7 @@ import com.mapbox.mapboxsdk.maps.Style
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolManager
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolOptions
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -25,7 +26,7 @@ private const val MAKI_ICON_CAFE = "cafe-15"
 
 class MapFragment : BaseFragment(), OnMapReadyCallback {
 
-    private val mapViewModel: MapViewModel by viewModel()
+    private val mapViewModel: MapViewModel by sharedViewModel()
     private lateinit var fragmentMapBinding: FragmentMapBinding
     private val symbolLayerIconFeatureList: MutableList<SymbolOptions> = ArrayList()
     private lateinit var symbolManager: SymbolManager
@@ -99,11 +100,10 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
 
     override fun onMapReady(mapboxMap: MapboxMap) {
 
-
         mapboxMap.setStyle(Style.LIGHT) { style ->
             symbolManager = SymbolManager(fragmentMapBinding.mapView, mapboxMap, style)
 
-            val symbolList=symbolManager.create(symbolLayerIconFeatureList)
+            val symbolList = symbolManager.create(symbolLayerIconFeatureList)
 
             symbolManager.addClickListener { symbol ->
                 snackbarUtil.showSnackbarNotify(
@@ -112,10 +112,15 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
                     )
                 )
 
-                symbolList[SYMBOL_LAST_CLICKED.toInt()].iconImage= MAKI_ICON_HARBOR
-                SYMBOL_LAST_CLICKED=symbol.id
-                symbol.iconImage = MAKI_ICON_CAFE
-                symbolManager.update(symbol)
+                symbolList[SYMBOL_LAST_CLICKED.toInt()].iconImage = MAKI_ICON_HARBOR
+                symbol.apply {
+                    SYMBOL_LAST_CLICKED = id.also {
+                        mapViewModel.selectedPointPositionLiveData.value=it
+                    }
+                    iconImage = MAKI_ICON_CAFE
+                    symbolManager.update(this)
+                }
+
                 true
             }
         }

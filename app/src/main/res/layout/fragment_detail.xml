@@ -9,7 +9,7 @@
 
         <variable
             name="detailViewModel"
-            type="com.example.mapboxexample.ui.detail.DetailViewModel" />
+            type="com.example.mapboxexample.ui.map.MapViewModel" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"

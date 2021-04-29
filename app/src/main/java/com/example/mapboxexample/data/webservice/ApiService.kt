@@ -9,6 +9,6 @@ interface ApiService {
     @GET("api/v1/points")
     suspend fun getAllPoints():List<PointServer>
 
-    @GET("api/v1/{id}")
-    suspend fun getPoint(@Path("id")id:String)
+    @GET("api/v1/points/{id}")
+    suspend fun getPoint(@Path("id")id:String):PointServer
 }

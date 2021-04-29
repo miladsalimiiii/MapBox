@@ -8,20 +8,35 @@
 
         <variable
             name="mapViewModel"
-            type="com.example.mapboxexample.ui.map.MapViewModel" />
+            type="com.example.mapboxexample.ui.sharedviewmodel.ShredViewModel" />
     </data>
-<FrameLayout
-    xmlns:mapbox="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-        <com.mapbox.mapboxsdk.maps.MapView
-            android:id="@+id/mapView"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout xmlns:mapbox="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            mapbox:mapbox_cameraTargetLat="-32.557013"
-            mapbox:mapbox_cameraTargetLng="-56.149056"
-            mapbox:mapbox_cameraZoom="5.526846"/>
+            android:layout_height="match_parent">
 
-    </FrameLayout>
+            <com.mapbox.mapboxsdk.maps.MapView
+                android:id="@+id/mapView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                mapbox:mapbox_cameraTargetLat="-32.557013"
+                mapbox:mapbox_cameraTargetLng="-56.149056"
+                mapbox:mapbox_cameraZoom="5.526846" />
+
+        </FrameLayout>
+
+        <ProgressBar
+            android:layout_width="@dimen/spacing_14x"
+            android:layout_height="@dimen/spacing_14x"
+            android:layout_gravity="center"
+            android:visibility="@{mapViewModel.loadingLiveData ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

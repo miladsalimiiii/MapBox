@@ -7,5 +7,5 @@ interface ApiHelper {
 
     suspend fun getAllPoints():List<PointServer>
 
-    suspend fun getPoint(@Path("id")id:String)
+    suspend fun getPoint(@Path("id")id:String):PointServer
 }

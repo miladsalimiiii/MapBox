@@ -5,5 +5,5 @@ import org.koin.dsl.module
 import kotlin.math.sin
 
 val repositoryModule= module {
-    single { PointRepository(get()) }
+    single { PointRepository(get(),get()) }
 }

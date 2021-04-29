@@ -39,5 +39,13 @@ class DetailFragment : BaseFragment() {
         detailViewModel.selectedPointPositionLiveData.observe(viewLifecycleOwner, Observer {
             detailViewModel.getPointDetail(it.toString())
         })
+
+        detailViewModel.uiCommunicationListener.observe(viewLifecycleOwner, Observer {
+            checkCommunicate(it, ::retryFunction)
+        })
+    }
+
+    private fun retryFunction() {
+        detailViewModel.getPoints()
     }
 }

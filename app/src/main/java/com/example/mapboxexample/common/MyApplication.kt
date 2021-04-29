@@ -2,10 +2,7 @@ package com.example.mapboxexample.common
 
 import androidx.multidex.MultiDexApplication
 import com.example.mapboxexample.R
-import com.example.mapboxexample.di.apiModule
-import com.example.mapboxexample.di.repositoryModule
-import com.example.mapboxexample.di.utilModule
-import com.example.mapboxexample.di.viewModelModule
+import com.example.mapboxexample.di.*
 import com.mapbox.mapboxsdk.Mapbox
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -35,7 +32,8 @@ class MyApplication : MultiDexApplication(), KoinComponent {
                     viewModelModule,
                     apiModule,
                     utilModule,
-                    repositoryModule
+                    repositoryModule,
+                    databaseModule
                 )
             )
         }

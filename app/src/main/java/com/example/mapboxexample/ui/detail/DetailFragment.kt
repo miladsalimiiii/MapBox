@@ -7,13 +7,12 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.example.mapboxexample.databinding.FragmentDetailBinding
 import com.example.mapboxexample.ui.base.BaseFragment
-import com.example.mapboxexample.ui.map.MapViewModel
+import com.example.mapboxexample.ui.sharedviewmodel.ShredViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailFragment : BaseFragment() {
 
-    private val detailViewModel: MapViewModel by sharedViewModel()
+    private val detailViewModel: ShredViewModel by sharedViewModel()
     private lateinit var fragmentDetailBinding: FragmentDetailBinding
     private var pointId: Long? = 0
     override fun onCreateView(
@@ -29,7 +28,7 @@ class DetailFragment : BaseFragment() {
     }
 
     override fun initComponents() {
-          //   detailViewModel.getPointDetail()
+
     }
 
     override fun initUiListeners() {
@@ -37,11 +36,8 @@ class DetailFragment : BaseFragment() {
     }
 
     override fun initObservers() {
-//        sharedViewModel.selectedPointPositionLiveData.observe(viewLifecycleOwner, Observer {
-//            pointId = it
-//        })
-//        detailViewModel.getPointDetailResponseLiveData.observe(viewLifecycleOwner, Observer {
-//
-//        })
+        detailViewModel.selectedPointPositionLiveData.observe(viewLifecycleOwner, Observer {
+            detailViewModel.getPointDetail(it.toString())
+        })
     }
 }

@@ -1,4 +1,4 @@
-package com.example.mapboxexample.ui.map
+package com.example.mapboxexample.ui.sharedviewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,7 +13,7 @@ import com.example.mapboxexample.util.NetworkHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MapViewModel(
+class ShredViewModel(
     private val pointRepository: PointRepository,
     private val networkHelper: NetworkHelper
 ) : BaseViewModel() {
@@ -33,13 +33,24 @@ class MapViewModel(
 
     var selectedPointPositionLiveData = MutableLiveData<Long>()
 
+    private val _latitudeLiveData = MutableLiveData<String>()
+    val latitudeLiveData: LiveData<String>
+        get() = _latitudeLiveData
+
+    private val _longitudeLiveData = MutableLiveData<String>()
+    val longitudeLiveData: LiveData<String>
+        get() = _longitudeLiveData
+
+    private val _imageLiveData = MutableLiveData<String>()
+    val imageLiveData: LiveData<String>
+        get() = _imageLiveData
 
 
-    fun getPoints(){
+    fun getPoints() {
         object : ApiResponseHandler<List<PointServer>>(
             networkHelper = networkHelper,
             apiCall = {
-                   pointRepository.getAllPoints()
+                pointRepository.getAllPoints()
             }, viewModelScope = viewModelScope
         ) {
             override fun handleLoading(enable: Boolean) {
@@ -49,7 +60,7 @@ class MapViewModel(
             }
 
             override fun handleSuccessResult(successResult: ApiResult.Success<List<PointServer>>) {
-                  _getPointsResponseLiveData.postValue(successResult.data)
+                _getPointsResponseLiveData.postValue(successResult.data)
             }
 
             override fun handleError(errorBody: Throwable?, uiCommunication: UICommunication) {
@@ -58,28 +69,28 @@ class MapViewModel(
         }.getResult()
     }
 
-    fun getPointDetail() {
-        selectedPointPositionLiveData.value?.let {
-            object : ApiResponseHandler<PointServer>(
-                networkHelper = networkHelper,
-                apiCall = {
-                    pointRepository.getPoint(pointId = it.toString())
-                }, viewModelScope = viewModelScope
-            ) {
-                override fun handleLoading(enable: Boolean) {
-                    viewModelScope.launch(Dispatchers.Main) {
-                        _loadingLiveData.value = enable
-                    }
+    fun getPointDetail(pointId: String) {
+        object : ApiResponseHandler<PointServer>(
+            networkHelper = networkHelper,
+            apiCall = {
+                pointRepository.getPoint(pointId = pointId)
+            }, viewModelScope = viewModelScope
+        ) {
+            override fun handleLoading(enable: Boolean) {
+                viewModelScope.launch(Dispatchers.Main) {
+                    _loadingLiveData.value = enable
                 }
+            }
 
-                override fun handleSuccessResult(successResult: ApiResult.Success<PointServer>) {
-                    _getPointDetailResponseLiveData.postValue(successResult.data)
-                }
+            override fun handleSuccessResult(successResult: ApiResult.Success<PointServer>) {
+                _latitudeLiveData.postValue(successResult.data.latitude.toString())
+                _longitudeLiveData.postValue(successResult.data.longitude.toString())
+                _imageLiveData.postValue(successResult.data.image?:"")
+            }
 
-                override fun handleError(errorBody: Throwable?, uiCommunication: UICommunication) {
-                    _uiCommunicationListener.postValue(uiCommunication)
-                }
-            }.getResult()
-        }
+            override fun handleError(errorBody: Throwable?, uiCommunication: UICommunication) {
+                _uiCommunicationListener.postValue(uiCommunication)
+            }
+        }.getResult()
     }
 }

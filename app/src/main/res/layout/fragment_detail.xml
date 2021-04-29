@@ -7,56 +7,88 @@
 
         <import type="android.view.View" />
 
+        <import type="com.example.mapboxexample.R" />
+
         <variable
             name="detailViewModel"
-            type="com.example.mapboxexample.ui.map.MapViewModel" />
+            type="com.example.mapboxexample.ui.sharedviewmodel.ShredViewModel" />
     </data>
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/spacing_6x"
-    android:layout_marginTop="@dimen/spacing_6x"
-    android:layout_marginEnd="@dimen/spacing_6x"
-    android:paddingBottom="@dimen/spacing_4x"
-    android:paddingTop="@dimen/spacing_4x"
-    app:elevation="@dimen/spacing_4x"
-    android:background="@drawable/background_borderradius">
 
-    <ImageView
-        android:id="@+id/pointIcon"
-        android:layout_width="@dimen/spacing_9x"
-        android:layout_height="@dimen/spacing_10x"
-        android:layout_marginStart="@dimen/spacing_4x"
-        android:src="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="@dimen/spacing_4x" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/latitude"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_3x"
-        android:text="@string/latitude"
-        android:textColor="@color/gray"
-        android:gravity="center_vertical"
-        app:layout_constraintStart_toEndOf="@+id/pointIcon"
-        app:layout_constraintBottom_toTopOf="@+id/longitude"
-        app:layout_constraintTop_toTopOf="@+id/pointIcon"
-        android:layout_marginLeft="@dimen/spacing_3x" />
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/select_position"
+            android:visibility="@{detailViewModel.latitudeLiveData != null || detailViewModel.loadingLiveData  ? View.GONE : View.VISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/longitude"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_3x"
-        android:text="@string/longitude"
-        android:textColor="@color/gray"
-        app:layout_constraintStart_toEndOf="@+id/pointIcon"
-        app:layout_constraintBottom_toBottomOf="@+id/pointIcon"
-        app:layout_constraintTop_toBottomOf="@+id/latitude"
-        android:layout_marginLeft="@dimen/spacing_3x" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_6x"
+            android:layout_marginTop="@dimen/spacing_6x"
+            android:layout_marginEnd="@dimen/spacing_6x"
+            android:background="@drawable/background_borderradius"
+            android:paddingTop="@dimen/spacing_4x"
+            android:paddingBottom="@dimen/spacing_4x"
+            android:visibility="@{detailViewModel.latitudeLiveData == null || detailViewModel.loadingLiveData  ? View.GONE : View.VISIBLE}"
+            app:elevation="@dimen/spacing_4x"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/pointIcon"
+                glide="@{detailViewModel.imageLiveData}"
+                android:layout_width="@dimen/spacing_14x"
+                android:layout_height="@dimen/spacing_14x"
+                android:layout_marginStart="@dimen/spacing_4x"
+                android:layout_marginLeft="@dimen/spacing_4x"
+                android:src="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/latitude"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_3x"
+                android:layout_marginLeft="@dimen/spacing_3x"
+                android:gravity="center_vertical"
+                android:text="@{context.getString(R.string.latitude,detailViewModel.latitudeLiveData)}"
+                android:textColor="@color/gray"
+                app:layout_constraintBottom_toTopOf="@+id/longitude"
+                app:layout_constraintStart_toEndOf="@+id/pointIcon"
+                app:layout_constraintTop_toTopOf="@+id/pointIcon" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/longitude"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_3x"
+                android:layout_marginLeft="@dimen/spacing_3x"
+                android:text="@{context.getString(R.string.longitude,detailViewModel.longitudeLiveData)}"
+                android:textColor="@color/gray"
+                app:layout_constraintBottom_toBottomOf="@+id/pointIcon"
+                app:layout_constraintStart_toEndOf="@+id/pointIcon"
+                app:layout_constraintTop_toBottomOf="@+id/latitude" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ProgressBar
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:visibility="@{detailViewModel.loadingLiveData ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

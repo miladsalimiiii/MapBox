@@ -9,6 +9,7 @@ import com.example.mapboxexample.R
 import com.example.mapboxexample.data.model.PointServer
 import com.example.mapboxexample.databinding.FragmentMapBinding
 import com.example.mapboxexample.ui.base.BaseFragment
+import com.example.mapboxexample.ui.sharedviewmodel.ShredViewModel
 import com.example.mapboxexample.util.SnackbarUtil
 import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.maps.MapboxMap
@@ -18,15 +19,13 @@ import com.mapbox.mapboxsdk.plugins.annotation.SymbolManager
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolOptions
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 private const val MAKI_ICON_HARBOR = "harbor-15"
-private const val MAKI_ICON_CAFE = "cafe-15"
 
 class MapFragment : BaseFragment(), OnMapReadyCallback {
 
-    private val mapViewModel: MapViewModel by sharedViewModel()
+    private val shredViewModel: ShredViewModel by sharedViewModel()
     private lateinit var fragmentMapBinding: FragmentMapBinding
     private val symbolLayerIconFeatureList: MutableList<SymbolOptions> = ArrayList()
     private lateinit var symbolManager: SymbolManager
@@ -44,7 +43,7 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
     ): View? {
         fragmentMapBinding =
             FragmentMapBinding.inflate(inflater, container, false)
-        fragmentMapBinding.mapViewModel = mapViewModel
+        fragmentMapBinding.mapViewModel = shredViewModel
         fragmentMapBinding.lifecycleOwner = this
         return fragmentMapBinding.root
     }
@@ -56,11 +55,10 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
             onCreate(savedInstanceState)
             getMapAsync(this@MapFragment)
         }
-
     }
 
     override fun initComponents() {
-        mapViewModel.getPoints()
+        shredViewModel.getPoints()
     }
 
     override fun initUiListeners() {
@@ -68,16 +66,16 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
     }
 
     override fun initObservers() {
-        mapViewModel.uiCommunicationListener.observe(viewLifecycleOwner, Observer {
+        shredViewModel.uiCommunicationListener.observe(viewLifecycleOwner, Observer {
             checkCommunicate(it, ::retryFunction)
         })
-        mapViewModel.getPointsResponseLiveData.observe(viewLifecycleOwner, Observer {
+        shredViewModel.getPointsResponseLiveData.observe(viewLifecycleOwner, Observer {
             addPointsToMap(it)
         })
     }
 
     private fun retryFunction() {
-        mapViewModel.getPoints()
+        shredViewModel.getPoints()
     }
 
     private fun addPointsToMap(pointList: List<PointServer>) {
@@ -107,20 +105,12 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
 
             symbolManager.addClickListener { symbol ->
                 snackbarUtil.showSnackbarNotify(
-                    requireView(), "Symbol clicked", requireActivity().findViewById(
+                    requireView(), getString(R.string.selected_position), requireActivity().findViewById(
                         R.id.nav_view
                     )
                 )
-
                 symbolList[SYMBOL_LAST_CLICKED.toInt()].iconImage = MAKI_ICON_HARBOR
-                symbol.apply {
-                    SYMBOL_LAST_CLICKED = id.also {
-                        mapViewModel.selectedPointPositionLiveData.value=it
-                    }
-                    iconImage = MAKI_ICON_CAFE
-                    symbolManager.update(this)
-                }
-
+                shredViewModel.selectedPointPositionLiveData.value = symbol.id+1
                 true
             }
         }

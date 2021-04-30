@@ -32,7 +32,7 @@ class DetailFragment : BaseFragment() {
     }
 
     override fun initComponents() {
-
+        detailViewModel.getPointDetail(navArgs.pointId)
     }
 
     override fun initUiListeners() {
@@ -57,7 +57,7 @@ class DetailFragment : BaseFragment() {
 
     override fun initObservers() {
         detailViewModel.selectedPointPositionLiveData.observe(viewLifecycleOwner, Observer {
-            detailViewModel.getPointDetail(it.toString())
+
         })
 
         detailViewModel.uiCommunicationListener.observe(viewLifecycleOwner, Observer {

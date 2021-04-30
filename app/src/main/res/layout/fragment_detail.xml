@@ -16,15 +16,16 @@
 
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true"
+
+        >
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="wrap_content"
             android:fitsSystemWindows="true">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -35,13 +36,12 @@
                 app:contentScrim="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-
                 <ImageView
                     android:id="@+id/expandedImage"
+                    glide="@{detailViewModel.imageLiveData}"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="300dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/mapbox_compass_icon"
                     app:layout_collapseMode="parallax"
                     app:layout_collapseParallaxMultiplier="0.7" />
 
@@ -49,85 +49,163 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    app:layout_collapseMode="pin"/>
+                    app:layout_collapseMode="pin" />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_6x"
-                android:layout_marginTop="@dimen/spacing_6x"
-                android:layout_marginEnd="@dimen/spacing_6x"
-                android:background="@drawable/background_borderradius"
-                android:paddingTop="@dimen/spacing_4x"
-                android:paddingBottom="@dimen/spacing_4x"
-                android:visibility="@{detailViewModel.latitudeLiveData == null || detailViewModel.loadingLiveData  ? View.GONE : View.VISIBLE}"
-                app:elevation="@dimen/spacing_4x"
-                app:layout_constraintBottom_toBottomOf="parent"
-                >
+                android:orientation="vertical">
 
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/pointIcon"
-                    glide="@{detailViewModel.imageLiveData}"
-                    android:layout_width="@dimen/spacing_14x"
-                    android:layout_height="@dimen/spacing_14x"
-                    android:layout_marginStart="@dimen/spacing_4x"
-                    android:layout_marginLeft="@dimen/spacing_4x"
-                    android:src="@color/black"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/latitude"
-                    android:layout_width="wrap_content"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/detailRoot"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_3x"
-                    android:layout_marginLeft="@dimen/spacing_3x"
-                    android:gravity="center_vertical"
-                    android:text="@{context.getString(R.string.latitude,detailViewModel.latitudeLiveData)}"
-                    android:textColor="@color/gray"
-                    app:layout_constraintBottom_toTopOf="@+id/longitude"
-                    app:layout_constraintStart_toEndOf="@+id/pointIcon"
-                    app:layout_constraintTop_toTopOf="@+id/pointIcon" />
+                    android:layout_marginStart="@dimen/spacing_6x"
+                    android:layout_marginTop="@dimen/spacing_4x"
+                    android:layout_marginEnd="@dimen/spacing_6x"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/longitude"
-                    android:layout_width="wrap_content"
+                    <ProgressBar
+                        android:id="@+id/infoProgress"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        android:layout_margin="@dimen/spacing_6x"
+                        android:indeterminate="false"
+                        android:max="100"
+                        android:progressDrawable="@drawable/drawable_profressbar"
+                        android:scaleX="-1"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/completeInfo"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/progressValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/teal_700"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@id/infoProgress"
+                        app:layout_constraintStart_toStartOf="@id/infoProgress"
+                        app:layout_constraintTop_toTopOf="@id/infoProgress"
+                        app:layout_constraintVertical_chainStyle="packed" />
+
+
+                    <TextView
+                        android:id="@+id/name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_2x"
+                        android:layout_marginLeft="@dimen/spacing_2x"
+                        android:layout_marginTop="@dimen/spacing_8x"
+                        android:textColor="@color/purple_200"
+                        app:layout_constraintBottom_toTopOf="@id/completeInfo"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/completeInfo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginTop="@dimen/spacing_3x"
+                        android:layout_marginBottom="0dp"
+                        android:text="complete_account_info"
+                        app:layout_constraintBottom_toTopOf="@id/completeInfoDescription"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/name" />
+
+                    <TextView
+                        android:id="@+id/completeInfoDescription"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_1x"
+                        android:layout_marginBottom="@dimen/spacing_5x"
+                        android:text="require_for_fund_buying"
+                        android:textColor="@color/teal_700"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/completeInfo"
+                        app:layout_constraintTop_toBottomOf="@id/completeInfo" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/vccv"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_3x"
-                    android:layout_marginLeft="@dimen/spacing_3x"
-                    android:text="@{context.getString(R.string.longitude,detailViewModel.longitudeLiveData)}"
-                    android:textColor="@color/gray"
-                    app:layout_constraintBottom_toBottomOf="@+id/pointIcon"
-                    app:layout_constraintStart_toEndOf="@+id/pointIcon"
-                    app:layout_constraintTop_toBottomOf="@+id/latitude" />
+                    android:layout_marginStart="@dimen/spacing_6x"
+                    android:layout_marginTop="@dimen/spacing_6x"
+                    android:layout_marginEnd="@dimen/spacing_6x"
+                    android:background="@drawable/background_borderradius"
+                    android:paddingTop="@dimen/spacing_4x"
+                    android:paddingBottom="@dimen/spacing_4x"
+                    android:visibility="@{detailViewModel.latitudeLiveData == null || detailViewModel.loadingLiveData  ? View.GONE : View.VISIBLE}"
+                    app:elevation="@dimen/spacing_4x">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/pointIcon"
+                        glide="@{detailViewModel.imageLiveData}"
+                        android:layout_width="@dimen/spacing_14x"
+                        android:layout_height="@dimen/spacing_14x"
+                        android:layout_marginStart="@dimen/spacing_4x"
+                        android:layout_marginLeft="@dimen/spacing_4x"
+                        android:src="@color/black"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/latitude"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_3x"
+                        android:layout_marginLeft="@dimen/spacing_3x"
+                        android:gravity="center_vertical"
+                        android:text="@{context.getString(R.string.latitude,detailViewModel.latitudeLiveData)}"
+                        android:textColor="@color/gray"
+                        app:layout_constraintBottom_toTopOf="@+id/longitude"
+                        app:layout_constraintStart_toEndOf="@+id/pointIcon"
+                        app:layout_constraintTop_toTopOf="@+id/pointIcon" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/longitude"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_3x"
+                        android:layout_marginLeft="@dimen/spacing_3x"
+                        android:text="@{context.getString(R.string.longitude,detailViewModel.longitudeLiveData)}"
+                        android:textColor="@color/gray"
+                        app:layout_constraintBottom_toBottomOf="@+id/pointIcon"
+                        app:layout_constraintStart_toEndOf="@+id/pointIcon"
+                        app:layout_constraintTop_toBottomOf="@+id/latitude" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <ProgressBar
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:visibility="@{detailViewModel.loadingLiveData ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <ProgressBar
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_gravity="center"
-                android:visibility="@{detailViewModel.loadingLiveData ? View.VISIBLE : View.GONE}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-
-
-
-
-
-
 
 </layout>

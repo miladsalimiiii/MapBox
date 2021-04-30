@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.example.mapboxexample.databinding.FragmentDetailBinding
 import com.example.mapboxexample.ui.base.BaseFragment
-import com.example.mapboxexample.ui.sharedviewmodel.ShredViewModel
+import com.example.mapboxexample.ui.map.MapModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class DetailFragment : BaseFragment() {
 
-    private val detailViewModel: ShredViewModel by sharedViewModel()
+    private val detailViewModel: MapModel by sharedViewModel()
     private lateinit var fragmentDetailBinding: FragmentDetailBinding
     private var pointId: Long? = 0
     override fun onCreateView(

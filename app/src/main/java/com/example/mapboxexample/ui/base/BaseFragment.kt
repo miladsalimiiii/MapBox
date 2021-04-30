@@ -42,7 +42,7 @@ abstract class BaseFragment: Fragment() {
                 snackbarUtil.showSnackbarNotify(
                     view = requireView(),
                     string = uICommunication.message.toIntOrNull()?.let { getString(it) }
-                        ?: uICommunication.message, snackbarLength = -2,anchorView = requireActivity().findViewById(R.id.nav_view))
+                        ?: uICommunication.message, snackbarLength = -2)
                     .setAction(getString(R.string.retry_again)) {
                         retryClickListener?.invoke()
                     }

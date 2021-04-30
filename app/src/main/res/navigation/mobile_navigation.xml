@@ -3,16 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/map">
 
     <fragment
-        android:id="@+id/navigation_home"
+        android:id="@+id/map"
         android:name="com.example.mapboxexample.ui.map.MapFragment"
         android:label="@string/title_map"
-        tools:layout="@layout/fragment_map" />
+        tools:layout="@layout/fragment_map" >
+        <action
+            android:id="@+id/action_map_to_detail"
+            app:destination="@id/detail" />
+    </fragment>
 
     <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/detail"
         android:name="com.example.mapboxexample.ui.detail.DetailFragment"
         android:label="@string/title_detail"
         tools:layout="@layout/fragment_detail" />

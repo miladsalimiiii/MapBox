@@ -11,7 +11,7 @@
 
         <variable
             name="detailViewModel"
-            type="com.example.mapboxexample.ui.sharedviewmodel.ShredViewModel" />
+            type="com.example.mapboxexample.ui.map.MapModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

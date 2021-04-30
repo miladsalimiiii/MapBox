@@ -1,22 +1,20 @@
-package com.example.mapboxexample.ui.sharedviewmodel
+package com.example.mapboxexample.ui.map
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.mapboxexample.common.UICommunication
-import com.example.mapboxexample.data.db.AppDataBase
 import com.example.mapboxexample.data.model.PointDb
 import com.example.mapboxexample.data.model.PointServer
 import com.example.mapboxexample.data.repository.PointRepository
 import com.example.mapboxexample.data.webservice.ApiResponseHandler
 import com.example.mapboxexample.data.webservice.ApiResult
-import com.example.mapboxexample.di.repositoryModule
 import com.example.mapboxexample.ui.base.BaseViewModel
 import com.example.mapboxexample.util.NetworkHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ShredViewModel(
+class MapModel(
     private val pointRepository: PointRepository,
     private val networkHelper: NetworkHelper
 ) : BaseViewModel() {

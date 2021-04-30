@@ -6,10 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.mapboxexample.R
 import com.example.mapboxexample.data.model.PointServer
 import com.example.mapboxexample.databinding.FragmentMapBinding
 import com.example.mapboxexample.ui.base.BaseFragment
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.maps.MapboxMap
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback
@@ -27,6 +30,8 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
     private lateinit var fragmentMapBinding: FragmentMapBinding
     private val symbolLayerIconFeatureList: MutableList<SymbolOptions> = ArrayList()
     private lateinit var symbolManager: SymbolManager
+    private var selectedPoint:String?=""
+
 
 
     override fun onCreateView(
@@ -56,7 +61,7 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
 
     override fun initUiListeners() {
         fragmentMapBinding.bottomSheet.setOnClickListener {
-           findNavController().navigate(R.id.detail)
+            findNavController().navigate(MapFragmentDirections.actionMapToDetail(selectedPoint.toString()))
         }
     }
 
@@ -107,6 +112,7 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
                 fragmentMapBinding.bottomSheet.visibility=View.VISIBLE
                 symbol.iconImage=MAKI_ICON_HARBOR
                 mapModel.getPointDetail((symbol.id+1).toString())
+                selectedPoint=(symbol.id+1).toString()
                 true
             }
 

@@ -5,7 +5,6 @@ import com.example.mapboxexample.util.NetworkHelper
 import com.example.mapboxexample.util.SnackbarUtil
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
-import kotlin.math.sin
 
 val utilModule= module {
     single { NetworkHelper(androidContext()) }

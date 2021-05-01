@@ -70,8 +70,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_6x"
                     android:layout_marginTop="@dimen/spacing_4x"
-                    android:background="@drawable/background_borderradius"
                     android:layout_marginEnd="@dimen/spacing_6x"
+                    android:background="@drawable/background_borderradius"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent">
 
@@ -82,8 +82,8 @@
                         android:layout_height="90dp"
                         android:layout_margin="@dimen/spacing_6x"
                         android:indeterminate="false"
-                        android:progress="@{detailViewModel.progressLiveData}"
                         android:max="100"
+                        android:progress="@{detailViewModel.progressLiveData}"
                         android:progressDrawable="@drawable/drawable_profressbar"
                         android:scaleX="-1"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -95,8 +95,8 @@
                         android:id="@+id/progressValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/teal_700"
                         android:text="@{context.getString(R.string.percent,detailViewModel.percentLiveData)}"
+                        android:textAppearance="@style/TextAppearance.Small.Teal"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@id/infoProgress"
                         app:layout_constraintStart_toStartOf="@id/infoProgress"
@@ -112,7 +112,7 @@
                         android:layout_marginLeft="@dimen/spacing_2x"
                         android:layout_marginTop="@dimen/spacing_8x"
                         android:text="@{context.getString(R.string.locale,detailViewModel.localeLiveData)}"
-                        android:textColor="@color/purple_200"
+                        android:textAppearance="@style/TextAppearance.Large.Purple"
                         app:layout_constraintBottom_toTopOf="@id/username"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -125,6 +125,7 @@
                         android:layout_marginLeft="@dimen/spacing_2x"
                         android:layout_marginTop="@dimen/spacing_1x"
                         android:layout_marginBottom="0dp"
+                        android:textAppearance="@style/TextAppearance.Large.Purple"
                         android:text="@{context.getString(R.string.username,detailViewModel.usernameLiveData)}"
                         app:layout_constraintBottom_toTopOf="@id/password"
                         app:layout_constraintStart_toStartOf="parent"
@@ -135,14 +136,14 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/spacing_2x"
+                        android:layout_marginLeft="@dimen/spacing_2x"
                         android:layout_marginTop="@dimen/spacing_1x"
                         android:layout_marginBottom="@dimen/spacing_5x"
                         android:text="@{context.getString(R.string.password,detailViewModel.passwordLiveData)}"
-                        android:textColor="@color/teal_700"
+                        android:textAppearance="@style/TextAppearance.Large.Purple"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/username"
-                        android:layout_marginLeft="@dimen/spacing_2x" />
+                        app:layout_constraintTop_toBottomOf="@id/username" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -178,7 +179,7 @@
                         android:layout_marginLeft="@dimen/spacing_3x"
                         android:gravity="center_vertical"
                         android:text="@{context.getString(R.string.latitude,detailViewModel.latitudeLiveData)}"
-                        android:textColor="@color/gray"
+                       android:textAppearance="@style/TextAppearance.Normal.Gray"
                         app:layout_constraintBottom_toTopOf="@+id/longitude"
                         app:layout_constraintStart_toEndOf="@+id/pointIcon"
                         app:layout_constraintTop_toTopOf="@+id/pointIcon" />
@@ -190,7 +191,7 @@
                         android:layout_marginStart="@dimen/spacing_3x"
                         android:layout_marginLeft="@dimen/spacing_3x"
                         android:text="@{context.getString(R.string.longitude,detailViewModel.longitudeLiveData)}"
-                        android:textColor="@color/gray"
+                        android:textAppearance="@style/TextAppearance.Normal.Gray"
                         app:layout_constraintBottom_toBottomOf="@+id/pointIcon"
                         app:layout_constraintStart_toEndOf="@+id/pointIcon"
                         app:layout_constraintTop_toBottomOf="@+id/latitude" />
@@ -207,8 +208,8 @@
         </androidx.core.widget.NestedScrollView>
 
         <ProgressBar
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="@dimen/spacing_15x"
+            android:layout_height="@dimen/spacing_15x"
             android:layout_gravity="center"
             android:visibility="@{detailViewModel.loadingLiveData ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"

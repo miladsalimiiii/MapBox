@@ -5,6 +5,7 @@
     <data>
 
         <import type="android.view.View" />
+
         <import type="com.example.mapboxexample.R" />
 
         <variable
@@ -42,24 +43,24 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/bottomSheet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_6x"
             android:layout_marginTop="@dimen/spacing_6x"
             android:layout_marginEnd="@dimen/spacing_6x"
+            android:layout_marginBottom="@dimen/spacing_4x"
             android:background="@drawable/background_borderradius"
-            android:id="@+id/bottomSheet"
+            android:paddingTop="@dimen/spacing_4x"
+            android:paddingBottom="@dimen/spacing_9x"
+            android:visibility="gone"
             app:behavior_hideable="false"
             app:behavior_peekHeight="0dp"
-            android:visibility="gone"
-            android:paddingBottom="@dimen/spacing_9x"
-            android:paddingTop="@dimen/spacing_4x"
             app:elevation="@dimen/spacing_4x"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginBottom="@dimen/spacing_4x"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintStart_toStartOf="parent">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/pointIcon"
@@ -80,7 +81,7 @@
                 android:layout_marginLeft="@dimen/spacing_3x"
                 android:gravity="center_vertical"
                 android:text="@{context.getString(R.string.latitude,mapViewModel.latitudeLiveData)}"
-                android:textColor="@color/gray"
+                android:textAppearance="@style/TextAppearance.Normal.Gray"
                 app:layout_constraintBottom_toTopOf="@+id/longitude"
                 app:layout_constraintStart_toEndOf="@+id/pointIcon"
                 app:layout_constraintTop_toTopOf="@+id/pointIcon" />
@@ -92,7 +93,7 @@
                 android:layout_marginStart="@dimen/spacing_3x"
                 android:layout_marginLeft="@dimen/spacing_3x"
                 android:text="@{context.getString(R.string.longitude,mapViewModel.longitudeLiveData)}"
-                android:textColor="@color/gray"
+                android:textAppearance="@style/TextAppearance.Normal.Gray"
                 app:layout_constraintBottom_toBottomOf="@+id/pointIcon"
                 app:layout_constraintStart_toEndOf="@+id/pointIcon"
                 app:layout_constraintTop_toBottomOf="@+id/latitude" />

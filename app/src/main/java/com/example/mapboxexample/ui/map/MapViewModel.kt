@@ -66,7 +66,6 @@ class MapViewModel(
                 viewModelScope.launch(Dispatchers.IO) {
                     getPointListFromDb()
                 }
-
             }
         }.getResult()
     }

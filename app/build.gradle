@@ -1,8 +1,23 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+
 }
+
 apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
+ext.versionMajor = 1
+ext.versionMinor = 0
+ext.versionPatch = 0
+ext.versionClassifier = null
+ext.isSnapshot = false
+ext.minimumSdkVersion = 16
+ext.minimumScreenSize = 1
+ext.maximumScreenSize = 4
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -11,10 +26,11 @@ android {
         applicationId "com.example.mapboxexample"
         minSdkVersion 16
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        versionCode generateVersionCode()
+        versionName generateVersionName()
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField 'String', 'BASE_URL', "\"https://608472fd9b2bed0017041011.mockapi.io/\""
     }
 
     buildTypes {
@@ -30,6 +46,28 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
+    }
+}
+
+
+private Integer generateVersionCode() {
+    return ext.minimumSdkVersion * 100000000 + ext.minimumScreenSize * 10000000 + ext.maximumScreenSize * 1000000 + ext.versionMajor * 10000 + ext.versionMinor * 100 + ext.versionPatch
+}
+
+private String generateVersionName() {
+    String versionName = "${ext.versionMajor}.${ext.versionMinor}.${ext.versionPatch}"
+    if (ext.versionClassifier == null) {
+        if (ext.isSnapshot) {
+            ext.versionClassifier = "SNAPSHOT"
+        }
+    }
+    if (ext.versionClassifier != null) {
+        versionName += "-" + ext.versionClassifier
+    }
+    return versionName
 }
 
 dependencies {
@@ -51,23 +89,25 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
 
 
+
     // Retrofit2
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
     implementation "com.squareup.retrofit2:converter-gson:2.9.0"
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
 
     // Room Database
-    implementation "androidx.room:room-runtime:2.2.6"
-    implementation "androidx.room:room-ktx:2.2.6"
-    implementation 'androidx.room:room-rxjava2:2.2.6'
-    kapt "androidx.room:room-compiler:2.2.6"
-    androidTestImplementation "androidx.room:room-testing:2.2.6"
+    implementation "androidx.room:room-runtime:2.3.0"
+    implementation "androidx.room:room-ktx:2.3.0"
+    implementation 'androidx.room:room-rxjava2:2.3.0'
+    kapt "androidx.room:room-compiler:2.3.0"
+    androidTestImplementation "androidx.room:room-testing:2.3.0"
 
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:2.3.5"
     implementation "androidx.navigation:navigation-ui-ktx:2.3.5"
     implementation 'android.arch.lifecycle:extensions:1.1.1'
     androidTestImplementation "androidx.navigation:navigation-testing:2.3.5"
+    implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0"
 
     // Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1'
@@ -82,4 +122,17 @@ dependencies {
 
     // MultiDex
     implementation 'com.android.support:multidex:1.0.3'
+
+    // Map box
+    implementation ('com.mapbox.mapboxsdk:mapbox-android-sdk:9.6.1'){
+        exclude group: 'group_name', module: 'module_name'
+    }
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:9.6.1'
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-annotation-v9:0.9.0'
+
+    //Image Loader
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+
+
+
 }

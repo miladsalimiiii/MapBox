@@ -1,22 +1,230 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.detail.DetailFragment">
 
-    <TextView
-        android:id="@+id/text_dashboard"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="com.example.mapboxexample.R" />
+
+        <variable
+            name="detailViewModel"
+            type="com.example.mapboxexample.ui.detail.DetailViewModel" />
+    </data>
+
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="match_parent"
+       >
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/toolbar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                app:contentScrim="?attr/colorPrimary"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                <ImageView
+                    android:id="@+id/expandedImage"
+                    glide="@{detailViewModel.imageLiveData}"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:scaleType="centerCrop"
+                    app:layout_collapseMode="pin"
+                    app:layout_collapseParallaxMultiplier="0.7" />
+
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin" />
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/detailRoot"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_6x"
+                    android:layout_marginTop="@dimen/spacing_4x"
+                    android:layout_marginEnd="@dimen/spacing_6x"
+                    android:visibility="@{detailViewModel.latitudeLiveData == null || detailViewModel.loadingLiveData  ? View.GONE : View.VISIBLE}"
+                    android:background="@drawable/background_borderradius"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <ProgressBar
+                        android:id="@+id/infoProgress"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_margin="@dimen/spacing_6x"
+                        android:indeterminate="false"
+                        android:max="100"
+                        android:progress="@{detailViewModel.progressLiveData}"
+                        android:progressDrawable="@drawable/drawable_profressbar"
+                        android:scaleX="-1"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/username"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/progressValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{context.getString(R.string.percent,detailViewModel.percentLiveData)}"
+                        android:textAppearance="@style/TextAppearance.Small.Teal"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@id/infoProgress"
+                        app:layout_constraintStart_toStartOf="@id/infoProgress"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_chainStyle="packed" />
+
+
+                    <TextView
+                        android:id="@+id/locale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_2x"
+                        android:layout_marginLeft="@dimen/spacing_2x"
+                        android:layout_marginTop="@dimen/spacing_8x"
+                        android:text="@{context.getString(R.string.locale,detailViewModel.localeLiveData)}"
+                        android:textAppearance="@style/TextAppearance.Large.Purple"
+                        app:layout_constraintBottom_toTopOf="@id/username"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/spacing_2x"
+                        android:layout_marginLeft="@dimen/spacing_2x"
+                        android:layout_marginTop="@dimen/spacing_1x"
+                        android:layout_marginBottom="0dp"
+                        android:textAppearance="@style/TextAppearance.Large.Purple"
+                        android:text="@{context.getString(R.string.username,detailViewModel.usernameLiveData)}"
+                        app:layout_constraintBottom_toTopOf="@id/password"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/locale" />
+
+                    <TextView
+                        android:id="@+id/password"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_2x"
+                        android:layout_marginLeft="@dimen/spacing_2x"
+                        android:layout_marginTop="@dimen/spacing_1x"
+                        android:layout_marginBottom="@dimen/spacing_5x"
+                        android:text="@{context.getString(R.string.password,detailViewModel.passwordLiveData)}"
+                        android:textAppearance="@style/TextAppearance.Large.Purple"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/username" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/vccv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_6x"
+                    android:layout_marginTop="@dimen/spacing_6x"
+                    android:layout_marginEnd="@dimen/spacing_6x"
+                    android:background="@drawable/background_borderradius"
+                    android:paddingTop="@dimen/spacing_4x"
+                    android:paddingBottom="@dimen/spacing_4x"
+                    android:visibility="@{detailViewModel.latitudeLiveData == null || detailViewModel.loadingLiveData  ? View.GONE : View.VISIBLE}"
+                    app:elevation="@dimen/spacing_4x">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/pointIcon"
+                        glide="@{detailViewModel.imageLiveData}"
+                        android:layout_width="@dimen/spacing_14x"
+                        android:layout_height="@dimen/spacing_14x"
+                        android:layout_marginStart="@dimen/spacing_4x"
+                        android:layout_marginLeft="@dimen/spacing_4x"
+                        android:src="@color/black"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/latitude"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_3x"
+                        android:layout_marginLeft="@dimen/spacing_3x"
+                        android:gravity="center_vertical"
+                        android:text="@{context.getString(R.string.latitude,detailViewModel.latitudeLiveData)}"
+                       android:textAppearance="@style/TextAppearance.Normal.Gray"
+                        app:layout_constraintBottom_toTopOf="@+id/longitude"
+                        app:layout_constraintStart_toEndOf="@+id/pointIcon"
+                        app:layout_constraintTop_toTopOf="@+id/pointIcon" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/longitude"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_3x"
+                        android:layout_marginLeft="@dimen/spacing_3x"
+                        android:text="@{context.getString(R.string.longitude,detailViewModel.longitudeLiveData)}"
+                        android:textAppearance="@style/TextAppearance.Normal.Gray"
+                        app:layout_constraintBottom_toBottomOf="@+id/pointIcon"
+                        app:layout_constraintStart_toEndOf="@+id/pointIcon"
+                        app:layout_constraintTop_toBottomOf="@+id/latitude" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/imageListGridView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_4x"
+                    android:horizontalSpacing="@dimen/spacing_1x"
+                    android:verticalSpacing="@dimen/spacing_2x"
+                    android:visibility="@{detailViewModel.latitudeLiveData == null || detailViewModel.loadingLiveData  ? View.GONE : View.VISIBLE}"
+                    android:padding="@dimen/spacing_3x"
+                    android:layout_marginStart="@dimen/spacing_1x"
+                    android:layout_marginEnd="@dimen/spacing_1x"
+                    android:background="@drawable/background_borderradius"
+                    />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <ProgressBar
+            android:layout_width="@dimen/spacing_15x"
+            android:layout_height="@dimen/spacing_15x"
+            android:layout_gravity="center"
+            android:visibility="@{detailViewModel.loadingLiveData ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

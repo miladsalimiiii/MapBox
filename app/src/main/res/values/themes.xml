@@ -11,6 +11,68 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="fontFamily">@font/mrsmonster</item>
         <!-- Customize your theme here. -->
+    </style>
+
+    <style name="TextAppearance">
+        <item name="android:fontFamily">@font/mrsmonster</item>
+    </style>
+
+    <style name="TextAppearance.Normal">
+        <item name="android:textSize">@dimen/text_size_normal</item>
+    </style>
+
+    <style name="TextAppearance.Small">
+        <item name="android:textSize">@dimen/text_size_small</item>
+    </style>
+
+    <style name="TextAppearance.Large">
+    <item name="android:textSize">@dimen/text_size_large</item>
+    </style>
+
+    <style name="TextAppearance.Normal.Purple">
+        <item name="android:textSize">@dimen/text_size_normal</item>
+        <item name="android:textColor">@color/purple_500</item>
+    </style>
+
+    <style name="TextAppearance.Small.Purple">
+        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="android:textColor">@color/purple_500</item>
+    </style>
+
+    <style name="TextAppearance.Large.Purple">
+        <item name="android:textSize">@dimen/text_size_large</item>
+        <item name="android:textColor">@color/purple_500</item>
+    </style>
+
+    <style name="TextAppearance.Normal.Teal">
+        <item name="android:textSize">@dimen/text_size_normal</item>
+        <item name="android:textColor">@color/teal_200</item>
+    </style>
+
+    <style name="TextAppearance.Small.Teal">
+        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="android:textColor">@color/teal_200</item>
+    </style>
+
+    <style name="TextAppearance.Large.Teal">
+        <item name="android:textSize">@dimen/text_size_large</item>
+        <item name="android:textColor">@color/teal_200</item>
+    </style>
+
+    <style name="TextAppearance.Normal.Gray">
+        <item name="android:textSize">@dimen/text_size_normal</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="TextAppearance.Small.Gray">
+        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="TextAppearance.Large.Gray">
+    <item name="android:textSize">@dimen/text_size_large</item>
+    <item name="android:textColor">@color/gray</item>
     </style>
 </resources>

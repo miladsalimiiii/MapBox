@@ -51,8 +51,8 @@
             android:layout_marginEnd="@dimen/spacing_6x"
             android:layout_marginBottom="@dimen/spacing_4x"
             android:background="@drawable/background_borderradius"
-            android:paddingTop="@dimen/spacing_4x"
-            android:paddingBottom="@dimen/spacing_9x"
+            android:paddingTop="@dimen/spacing_6x"
+            android:paddingBottom="@dimen/spacing_6x"
             android:visibility="gone"
             app:behavior_hideable="false"
             app:behavior_peekHeight="0dp"
@@ -70,6 +70,7 @@
                 android:layout_marginStart="@dimen/spacing_4x"
                 android:layout_marginLeft="@dimen/spacing_4x"
                 android:src="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -97,6 +98,16 @@
                 app:layout_constraintBottom_toBottomOf="@+id/pointIcon"
                 app:layout_constraintStart_toEndOf="@+id/pointIcon"
                 app:layout_constraintTop_toBottomOf="@+id/latitude" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/closeImage"
+                android:layout_width="@dimen/spacing_12x"
+                android:layout_height="@dimen/spacing_12x"
+                android:layout_marginEnd="@dimen/spacing_4x"
+                android:layout_marginRight="@dimen/spacing_4x"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/icon_close" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,7 +9,7 @@
 
         <variable
             name="mapViewModel"
-            type="com.example.mapboxexample.ui.map.MapModel" />
+            type="com.example.mapboxexample.ui.map.MapViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

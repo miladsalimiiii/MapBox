@@ -6,13 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
-import com.example.mapboxexample.R
-import com.example.mapboxexample.data.model.PointServer
+import com.example.mapboxexample.data.model.point.PointServer
 import com.example.mapboxexample.databinding.FragmentMapBinding
 import com.example.mapboxexample.ui.base.BaseFragment
-import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.maps.MapboxMap
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback
@@ -26,7 +22,7 @@ private const val MAKI_ICON_HARBOR = "harbor-15"
 
 class MapFragment : BaseFragment(), OnMapReadyCallback {
 
-    private val mapModel: MapModel by sharedViewModel()
+    private val mapViewModel: MapViewModel by sharedViewModel()
     private lateinit var fragmentMapBinding: FragmentMapBinding
     private val symbolLayerIconFeatureList: MutableList<SymbolOptions> = ArrayList()
     private lateinit var symbolManager: SymbolManager
@@ -41,7 +37,7 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
     ): View? {
         fragmentMapBinding =
             FragmentMapBinding.inflate(inflater, container, false)
-        fragmentMapBinding.mapViewModel = mapModel
+        fragmentMapBinding.mapViewModel = mapViewModel
         fragmentMapBinding.lifecycleOwner = this
         return fragmentMapBinding.root
     }
@@ -56,7 +52,7 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
     }
 
     override fun initComponents() {
-        mapModel.getPoints()
+        mapViewModel.getPoints()
     }
 
     override fun initUiListeners() {
@@ -66,16 +62,16 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
     }
 
     override fun initObservers() {
-        mapModel.uiCommunicationListener.observe(viewLifecycleOwner, Observer {
+        mapViewModel.uiCommunicationListener.observe(viewLifecycleOwner, Observer {
             checkCommunicate(it, ::retryFunction)
         })
-        mapModel.getPointsResponseLiveData.observe(viewLifecycleOwner, Observer {
+        mapViewModel.getPointsResponseLiveData.observe(viewLifecycleOwner, Observer {
             addPointsToMap(it)
         })
     }
 
     private fun retryFunction() {
-        mapModel.getPoints()
+        mapViewModel.getPoints()
     }
 
     private fun addPointsToMap(pointList: List<PointServer>) {
@@ -98,9 +94,6 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
 
     override fun onMapReady(mapboxMap: MapboxMap) {
 
-
-
-
         mapboxMap.setStyle(Style.LIGHT) { style ->
 
             symbolManager = SymbolManager(fragmentMapBinding.mapView, mapboxMap, style)
@@ -111,7 +104,7 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
 
                 fragmentMapBinding.bottomSheet.visibility=View.VISIBLE
                 symbol.iconImage=MAKI_ICON_HARBOR
-                mapModel.getPointDetail((symbol.id+1).toString())
+                mapViewModel.getPointDetail((symbol.id+1).toString())
                 selectedPoint=(symbol.id+1).toString()
                 true
             }

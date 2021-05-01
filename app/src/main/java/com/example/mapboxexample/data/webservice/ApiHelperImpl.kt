@@ -1,6 +1,6 @@
 package com.example.mapboxexample.data.webservice
 
-import com.example.mapboxexample.data.model.PointServer
+import com.example.mapboxexample.data.model.point.PointServer
 
 class ApiHelperImpl(private val apiService: ApiService):ApiHelper {
 

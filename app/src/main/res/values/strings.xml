@@ -10,6 +10,10 @@
     <string name="longitude">Longitude %s</string>
     <string name="select_position">Please select a position on map</string>
     <string name="selected_position">Selected Position</string>
+    <string name="locale">Locale : %s</string>
+    <string name="username">Username : %s</string>
+    <string name="password">Password : %s</string>
+    <string name="percent">Percent : %s</string>
 
     <string name="mapbox_access_token">pk.eyJ1IjoibWlsYWRzYWxpbWkiLCJhIjoiY2tuejA0OXU1MDB2YjJvbGJibGxwempjdSJ9.Bzk51ZsbrksWOpvlkRIkeQ</string>
 </resources>

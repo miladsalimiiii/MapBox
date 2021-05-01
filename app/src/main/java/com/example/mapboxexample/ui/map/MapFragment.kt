@@ -20,6 +20,7 @@ import com.mapbox.mapboxsdk.maps.OnMapReadyCallback
 import com.mapbox.mapboxsdk.maps.Style
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolManager
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolOptions
+import kotlinx.android.synthetic.main.fragment_map.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -66,6 +67,10 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
 
     override fun initUiListeners() {
         fragmentMapBinding.bottomSheet.setOnClickListener {
+            snackbarUtil.showSnackbarError(
+                requireView(),
+                getString(R.string.press_again)
+            ).dismiss()
             findNavController().navigate(MapFragmentDirections.actionMapToDetail(selectedPoint.toString()))
         }
         fragmentMapBinding.closeImage.setOnClickListener {
@@ -119,13 +124,11 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
                 symbol.iconImage = MAKI_ICON_MUSEUM
                 mapViewModel.getPointDetail((symbol.id + 1).toString())
                 selectedPoint = (symbol.id + 1).toString()
-                symbol.iconColor="yellow"
                 true
             }
 
         }
     }
-
 
     private fun checkDoubleBackPressToExit() {
         lifecycleScope.launch {

@@ -11,12 +11,12 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <item name="fontFamily">@font/habit_regular</item>
+        <item name="fontFamily">@font/mrsmonster</item>
         <!-- Customize your theme here. -->
     </style>
 
     <style name="TextAppearance">
-        <item name="android:fontFamily">@font/habit_regular</item>
+        <item name="android:fontFamily">@font/mrsmonster</item>
     </style>
 
     <style name="TextAppearance.Normal">

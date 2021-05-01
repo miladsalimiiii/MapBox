@@ -14,19 +14,20 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
-
-
         val navController = findNavController(R.id.nav_host_fragment)
 
-        val appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.map,
-            R.id.detail
-        ))
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.map,
+                R.id.detail
+            )
+        )
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         navController.addOnDestinationChangedListener { navController, navDestination, bundle ->
-            when(navDestination.id){
-                R.id.detail->{supportActionBar?.hide()}
+            when (navDestination.id) {
+                R.id.detail -> supportActionBar?.hide()
+                R.id.map -> supportActionBar?.show()
             }
         }
     }

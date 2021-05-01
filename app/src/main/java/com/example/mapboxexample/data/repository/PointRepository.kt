@@ -1,8 +1,7 @@
 package com.example.mapboxexample.data.repository
 
 import com.example.mapboxexample.data.db.AppDataBase
-import com.example.mapboxexample.data.model.PointDb
-import com.example.mapboxexample.data.model.PointServer
+import com.example.mapboxexample.data.model.point.PointDb
 import com.example.mapboxexample.data.webservice.ApiHelper
 
 class PointRepository(private val apiHelper: ApiHelper, private val appDataBase: AppDataBase) {

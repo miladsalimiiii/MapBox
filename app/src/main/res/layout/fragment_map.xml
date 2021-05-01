@@ -5,10 +5,11 @@
     <data>
 
         <import type="android.view.View" />
+        <import type="com.example.mapboxexample.R" />
 
         <variable
             name="mapViewModel"
-            type="com.example.mapboxexample.ui.sharedviewmodel.ShredViewModel" />
+            type="com.example.mapboxexample.ui.map.MapViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,5 +39,66 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_6x"
+            android:layout_marginTop="@dimen/spacing_6x"
+            android:layout_marginEnd="@dimen/spacing_6x"
+            android:background="@drawable/background_borderradius"
+            android:id="@+id/bottomSheet"
+            app:behavior_hideable="false"
+            app:behavior_peekHeight="0dp"
+            android:visibility="gone"
+            android:paddingBottom="@dimen/spacing_9x"
+            android:paddingTop="@dimen/spacing_4x"
+            app:elevation="@dimen/spacing_4x"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="@dimen/spacing_4x"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/pointIcon"
+                glide="@{mapViewModel.imageLiveData}"
+                android:layout_width="@dimen/spacing_14x"
+                android:layout_height="@dimen/spacing_14x"
+                android:layout_marginStart="@dimen/spacing_4x"
+                android:layout_marginLeft="@dimen/spacing_4x"
+                android:src="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/latitude"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_3x"
+                android:layout_marginLeft="@dimen/spacing_3x"
+                android:gravity="center_vertical"
+                android:text="@{context.getString(R.string.latitude,mapViewModel.latitudeLiveData)}"
+                android:textColor="@color/gray"
+                app:layout_constraintBottom_toTopOf="@+id/longitude"
+                app:layout_constraintStart_toEndOf="@+id/pointIcon"
+                app:layout_constraintTop_toTopOf="@+id/pointIcon" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/longitude"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_3x"
+                android:layout_marginLeft="@dimen/spacing_3x"
+                android:text="@{context.getString(R.string.longitude,mapViewModel.longitudeLiveData)}"
+                android:textColor="@color/gray"
+                app:layout_constraintBottom_toBottomOf="@+id/pointIcon"
+                app:layout_constraintStart_toEndOf="@+id/pointIcon"
+                app:layout_constraintTop_toBottomOf="@+id/latitude" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

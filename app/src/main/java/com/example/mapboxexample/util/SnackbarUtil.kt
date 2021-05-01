@@ -33,7 +33,7 @@ class SnackbarUtil(private val mContext: Context) {
     private fun config(snackbar: Snackbar) {
         val textView = snackbar.view.findViewById<TextView>(R.id.snackbar_text)
         val textViewSnackbarAction = snackbar.view.findViewById<TextView>(R.id.snackbar_action)
-        val typeface = ResourcesCompat.getFont(mContext, R.font.cutie_shark)
+        val typeface = ResourcesCompat.getFont(mContext, R.font.habit_regular)
         textView.typeface = typeface
         textViewSnackbarAction.typeface = typeface
         textView.maxLines = 1

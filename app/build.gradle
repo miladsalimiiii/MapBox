@@ -8,6 +8,16 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
+
+ext.versionMajor = 0
+ext.versionMinor = 1
+ext.versionPatch = 0
+ext.versionClassifier = null
+ext.isSnapshot = false
+ext.minimumSdkVersion = 16
+ext.minimumScreenSize = 1
+ext.maximumScreenSize = 4
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -16,8 +26,8 @@ android {
         applicationId "com.example.mapboxexample"
         minSdkVersion 16
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        versionCode generateVersionCode()
+        versionName generateVersionName()
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField 'String', 'BASE_URL', "\"https://608472fd9b2bed0017041011.mockapi.io/\""
@@ -40,6 +50,24 @@ android {
         dataBinding = true
         viewBinding = true
     }
+}
+
+
+private Integer generateVersionCode() {
+    return ext.minimumSdkVersion * 100000000 + ext.minimumScreenSize * 10000000 + ext.maximumScreenSize * 1000000 + ext.versionMajor * 10000 + ext.versionMinor * 100 + ext.versionPatch
+}
+
+private String generateVersionName() {
+    String versionName = "${ext.versionMajor}.${ext.versionMinor}.${ext.versionPatch}"
+    if (ext.versionClassifier == null) {
+        if (ext.isSnapshot) {
+            ext.versionClassifier = "SNAPSHOT"
+        }
+    }
+    if (ext.versionClassifier != null) {
+        versionName += "-" + ext.versionClassifier
+    }
+    return versionName
 }
 
 dependencies {
